@@ -18,25 +18,12 @@ Run the following command in your terminal prompt:
 ```sh
 npm install
 ```
-To Run android emulator
+To Run 
 
 ```sh
-npx react-native run-android
+npx react-native start
 ```
 
-For IOS
-Go to IOS folder and install pod
-
-```sh
-cd ios
-install pod
-cd ..
-```
-After pod install run this in root project folder
-
-```sh
-npx react-native run-ios
-```
 
 ### Features
 - Note create, update, delete and link them to client and a category
