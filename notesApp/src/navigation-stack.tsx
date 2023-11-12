@@ -2,7 +2,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import Notes from './screens/components/notes';
 import MyList from './screens/my-list';
-import {HEADER_TINT_COLOR} from './utils/colors';
+import {HEADER_TINT_COLOR} from './assets/colors';
 import {NoteType} from './types/note';
 
 export type MyNotesStackParams = {

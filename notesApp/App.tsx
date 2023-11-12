@@ -4,7 +4,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native';
 import NotesProvider from './src/contexts/notesProvider';
 import {NavigationStack} from './src/navigation-stack';
-import {LIGHT_BG_COLOR} from './src/utils/colors';
+import {LIGHT_BG_COLOR} from './src/assets/colors';
 
 function App(): JSX.Element {
   const backgroundStyle = {
