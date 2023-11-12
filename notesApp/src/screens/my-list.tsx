@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {
+  Alert,
   FlatList,
   KeyboardAvoidingView,
   Platform,
@@ -81,50 +82,66 @@ const MyList = () => {
     setModalVisible(true);
   };
 
+  const handleDelete = (id: string) => {
+    Alert.alert(
+      'Confirm Delete',
+      'Are you sure you want to delete?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => {
+            deleteNote(id);
+          },
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+
   return (
     <View style={styles.myListContainer}>
-      {isModalVisible ? (
-        <AlertModal
-          isVisible={isModalVisible}
-          message={'Deleted Successfully!'}
-          onClose={toggleModal}
-        />
+      {notes.length === 0 ? (
+        <View style={styles.myNotesMsgWrapper}>
+          <Text style={styles.Message}>{message}</Text>
+          <Text style={styles.Message}>{instruction}</Text>
+        </View>
       ) : (
-        <>
-          {notes.length === 0 ? (
-            <View style={styles.myNotesMsgWrapper}>
-              <Text style={styles.Message}>{message}</Text>
-              <Text style={styles.Message}>{instruction}</Text>
-            </View>
-          ) : (
-            <View style={styles.flatListWrapper}>
-              <FlatList
-                data={notes}
-                renderItem={({item}) => (
-                  <Item
-                    item={item}
-                    deleteNote={deleteNote}
-                    goToList={() => {
-                      navigation.navigate('newNotes', {
-                        notesDetail: item,
-                      });
-                    }}
-                  />
-                )}
-                keyExtractor={item => item.id}
+        <View style={styles.flatListWrapper}>
+          <FlatList
+            data={notes}
+            renderItem={({item}) => (
+              <Item
+                item={item}
+                deleteNote={handleDelete}
+                goToList={() => {
+                  navigation.navigate('newNotes', {
+                    notesDetail: item,
+                  });
+                }}
               />
-            </View>
-          )}
-
-          <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={styles.addNotesWrapper}>
-            <TouchableOpacity onPress={onAdd} style={styles.addNotesButton}>
-              <Text style={styles.addNotesButtonText}>+ New List</Text>
-            </TouchableOpacity>
-          </KeyboardAvoidingView>
-        </>
+            )}
+            keyExtractor={item => item.id}
+          />
+          <AlertModal
+            isVisible={isModalVisible}
+            message={'Deleted Successfully!'}
+            onClose={toggleModal}
+          />
+        </View>
       )}
+
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.addNotesWrapper}>
+        <TouchableOpacity onPress={onAdd} style={styles.addNotesButton}>
+          <Text style={styles.addNotesButtonText}>+ New List</Text>
+        </TouchableOpacity>
+      </KeyboardAvoidingView>
     </View>
   );
 };
