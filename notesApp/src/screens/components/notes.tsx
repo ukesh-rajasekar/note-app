@@ -9,6 +9,7 @@ import {BORDER_COLOR, HEADER_TINT_COLOR} from '../../assets/colors';
 import CustomButton from './button-ui';
 import AlertModal from './modal';
 import Selector from './selector';
+import {useNavigation} from '@react-navigation/native';
 
 type NotesProps = {
   route: {
@@ -20,7 +21,7 @@ type NotesProps = {
 const Notes = (props: NotesProps) => {
   const {notesDetail} = props.route.params;
   const [noteText, setNoteText] = useState<string>(notesDetail.text);
-
+  const navigation = useNavigation();
   const {notes, setNotes} = useNotes();
   const [isFocus, setIsFocus] = useState<boolean>(false);
   const [selectedCategory, setSelectedCategory] = useState<string>(
@@ -65,6 +66,10 @@ const Notes = (props: NotesProps) => {
     setNotes(newNotes);
     setAlertMessage('Created Successfully');
     toggleModal();
+    setTimeout(() => {
+      toggleModal();
+      navigation.goBack();
+    }, 1200);
   };
 
   const handleUpdate = async () => {
